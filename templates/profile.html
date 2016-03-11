@@ -1,0 +1,30 @@
+<html>
+
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+  $("#getData").click(function() {
+
+    $.getJSON('/lotsofdata', function(dat) {
+      console.log("Ajax received data!");
+      console.dir(dat);
+    });
+
+  });
+
+});
+</script>
+
+</head>
+<body>
+{% if name %}
+	<h1 style = "color: red;"> Hello, {{name}}! </h1>
+{% else %}
+	<h1> Hello noname! </h1>
+{%endif%}
+<button id= "getData"> Get Data </button>		
+</body>	
+</html>
