@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, jsonify
 from werkzeug import secure_filename
 import os
+import requests
+import json
+
 
 app = Flask(__name__)
 
@@ -14,8 +17,27 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
 
-@app.route("/")
+@app.route("/",  methods = ['GET', 'POST'])
 def index():
+    '''
+    if request.method == 'POST':
+        if request.form['Search'] == 'Search':
+            #url = "http://teamveracity.web.engr.illinois.edu/journals.php"
+            url = 'http://teamveracity.web.engr.illinois.edu/journals.php?search=title&max=1'
+            data = {'searchQuery': request.form['query'], 'numResults': request.form['numResults']}
+            r = requests.post(url, data)
+            data = json.dumps(r.text)
+            return render_template('index.html', data=data)
+
+
+    '''
+    
+    if request.method == 'POST':
+        if request.form['Search'] == 'Search':
+            json_data = open("av_fake_data.json")
+            data = json.load(json_data)
+            return render_template('index.html', data=data)
+
     return render_template('index.html')
 
 
