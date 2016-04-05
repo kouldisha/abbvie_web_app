@@ -3,6 +3,9 @@ from werkzeug import secure_filename
 import os
 import requests
 import json
+import ast
+import re
+import sys
 
 
 app = Flask(__name__)
@@ -19,23 +22,39 @@ def allowed_file(filename):
 
 @app.route("/",  methods = ['GET', 'POST'])
 def index():
-    '''
+    reload(sys)
+    sys.setdefaultencoding("utf-8")
     if request.method == 'POST':
         if request.form['Search'] == 'Search':
             #url = "http://teamveracity.web.engr.illinois.edu/journals.php"
-            url = 'http://teamveracity.web.engr.illinois.edu/journals.php?search=title&max=1'
+            query = request.form["query"]
+            numResults = request.form["numResults"]
+            url = 'http://teamveracity.web.engr.illinois.edu/journals.php?search=' + str(query) + '&max=' + str(numResults)
             data = {'searchQuery': request.form['query'], 'numResults': request.form['numResults']}
             r = requests.post(url, data)
-            data = json.dumps(r.text)
-            return render_template('index.html', data=data)
+            data = json.loads(r.text)
+            #data = (r.text).decode('utf-8','ignore')
+            #data = json.loads(unicode(r.text, "ISO-8859-1"))
+            for paper in data:
+                for i in ['title', 'authors', 'journal', 'publication_year', 'veracity']:
+                    try:
+                        if paper[i] == None or paper[i] == "null" or paper[i] == u"\u0000" or paper[i] == "[]":
+                            paper[i] = '-'
+
+                        elif i == 'authors':
+                            final_auth_str = ''
+                            a = ast.literal_eval(paper[i])
+                            for auth in a:
+                                auth = auth.encode('utf-8')
+                                final_auth_str = final_auth_str + str(auth) + ", "
+                            final_auth_str = final_auth_str[:-2]
+                            paper[i] = final_auth_str
 
 
-    '''
-    
-    if request.method == 'POST':
-        if request.form['Search'] == 'Search':
-            json_data = open("av_fake_data.json")
-            data = json.load(json_data)
+                    except:
+                        pass
+
+
             return render_template('index.html', data=data)
 
     return render_template('index.html')

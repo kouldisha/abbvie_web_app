@@ -60,15 +60,15 @@
         <section class="container well">
             <table id = "dataTable" style="width:100%">
               <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Journal</th>
-                <th>Publication Year</th>
-                <th>Veracity Score</th>
+                <th><b>Title</b></th>
+                <th><b>Author</b></th>
+                <th><b>Journal</b></th>
+                <th><b>Publication Year</b></th>
+                <th><b>Veracity Score</b></th>
               </tr>
               <tr >{% for x in data %}
-                <td>{{x.title }}</td>
-                <td>{{x.authors }}</td>
+                <td>{{x.title}}</td>
+                <td>{{x.authors}}</td>
                 <td>{{x.journal}}</td>
                 <td>{{x.publication_year}}</td>
                 <td>{{x.veracity}}</td>
