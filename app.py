@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, jsonify
-from werkzeug import secure_filename
 import os
 import requests
 import json
