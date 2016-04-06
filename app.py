@@ -22,6 +22,7 @@ def allowed_file(filename):
 
 @app.route("/",  methods = ['GET', 'POST'])
 def index():
+    '''
     reload(sys)
     sys.setdefaultencoding("utf-8")
     if request.method == 'POST':
@@ -56,6 +57,8 @@ def index():
 
 
             return render_template('index.html', data=data)
+    '''
+    print "this is a primitive script please work"
 
     return render_template('index.html')
 
