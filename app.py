@@ -58,6 +58,28 @@ def index():
 
     return render_template('index.html')
 
+#@app.route('/article', methods=['GET','POST'])
+@app.route('/article', methods=['GET','POST'])
+def article():
+    data = request.args.get('doi')
+    print 'The doi is {}'.format(data)
+    url_before = "http://api.elsevier.com/content/article/doi/10.1016/j.bbamcr.2008.11.016?httpAccept=application/pdf&apiKey=6492f9c867ddf3e84baa10b5971e3e3d&cdnRedirect=true"
+    url_after = "http://api.elsevier.com/content/article/doi/" + data + "?httpAccept=application/pdf&apiKey=6492f9c867ddf3e84baa10b5971e3e3d&cdnRedirect=true"
+    print 'The url after is {}'.format(url_after)
+    return render_template('article.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Route that will process the file upload
 @app.route('/upload', methods=['POST'])
@@ -75,6 +97,8 @@ def upload():
         # will basicaly show on the browser the uploaded file
         return redirect(url_for('uploaded_file',
                                 filename=filename))
+
+
 
 # This route is expecting a parameter containing the name
 # of a file. Then it will locate that file on the upload
